@@ -6,3 +6,5 @@ set(CMAKE_CXX_STANDARD 20)
 add_executable(systemy-operacyjne main.cpp
         philosopher.h
         philosopher.cpp)
+
+install(TARGETS systemy-operacyjne RUNTIME DESTINATION bin)
