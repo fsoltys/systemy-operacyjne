@@ -1,18 +1,14 @@
 #include "philosopher.h"
 
-philosopher::philosopher(int id, int leftFork, int rightFork,
-                         std::vector<std::mutex> &forksVecMTX,
+philosopher::philosopher(int id,
                          std::mutex &messageMTX,
                          std::vector<State> &states,
                          std::vector<std::condition_variable> &conditionVars,
                          std::mutex &stateMutex,
                          int thinkingTime, int eatingTime)
     : id(id),
-      leftFork(leftFork),
-      rightFork(rightFork),
       thinkingTime(thinkingTime),
       eatingTime(eatingTime),
-      forksVecMTX(forksVecMTX),
       messageMTX(messageMTX),
       states(states),
       conditionVars(conditionVars),

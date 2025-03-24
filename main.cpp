@@ -24,7 +24,6 @@ int main(int argc, char* argv[]) {
     int philosopherCount = 5;
 
     //initialization
-    std::vector<std::mutex> forks(philosopherCount);
     std::vector<State> states(philosopherCount, State::THINKING);
     std::vector<std::condition_variable> condVars(philosopherCount);
     std::mutex stateMutex;
@@ -68,9 +67,8 @@ int main(int argc, char* argv[]) {
 
     for (int i = 0; i < philosopherCount; ++i) {
         philosophers.emplace_back(std::make_unique<philosopher>(
-            i, i, (i + 1) % philosopherCount,
-            forks, messageMutex, states, condVars, stateMutex,
-            thinkingTime, eatingTime // przekazanie czasów
+            i, messageMutex, states, condVars, stateMutex,
+            thinkingTime, eatingTime
         ));
     }
 
@@ -79,7 +77,7 @@ int main(int argc, char* argv[]) {
     }
 
     for (auto& t : threads) {
-        t.join(); // w praktyce: program się nie kończy
+        t.join();
     }
 
     return 0;
