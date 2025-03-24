@@ -1,0 +1,35 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Set up C++ toolchain
+      uses: actions/setup-python@v4  # tylko po to, żeby mieć `g++`, opcjonalne
+      with:
+        python-version: '3.x'
+
+    - name: Install build dependencies
+      run: sudo apt update && sudo apt install -y g++ cmake make
+
+    - name: Create build directory
+      run: mkdir build
+
+    - name: Configure project with CMake
+      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build project
+      run: cmake --build build --config Release
+
+    - name: (Optional) Install to bin/
+      run: cmake --install build --prefix ./bin
