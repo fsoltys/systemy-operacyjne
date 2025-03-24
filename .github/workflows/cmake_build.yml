@@ -35,11 +35,12 @@ jobs:
         mkdir artifacts
         powershell Compress-Archive -Path bin\systemy-operacyjne.exe -DestinationPath artifacts\systemy-operacyjne-windows.zip
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
       with:
-        name: systemy-operacyjne-windows
-        path: artifacts/systemy-operacyjne-windows.zip
+        name: build-artifacts
+        path: ./build
+
         
     - name: Static analysis with cppcheck
       uses: deep5050/cppcheck-action@v1
