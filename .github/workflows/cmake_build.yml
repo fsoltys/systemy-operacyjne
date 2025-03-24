@@ -1,35 +1,42 @@
-name: Build and Test
+name: Build
 
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
 
-    - name: Set up C++ toolchain
-      uses: actions/setup-python@v4  # tylko po to, żeby mieć `g++`, opcjonalne
-      with:
-        python-version: '3.x'
-
-    - name: Install build dependencies
-      run: sudo apt update && sudo apt install -y g++ cmake make
-
     - name: Create build directory
       run: mkdir build
 
-    - name: Configure project with CMake
+    - name: Configure project with CMake (Release)
       run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 
     - name: Build project
       run: cmake --build build --config Release
 
-    - name: (Optional) Install to bin/
-      run: cmake --install build --prefix ./bin
+    - name: Install binary to ./bin
+      run: cmake --install build --config Release --prefix ./bin
+
+    - name: Check output
+      run: dir bin
+
+    - name: Create ZIP archive
+      run: |
+        mkdir artifacts
+        powershell Compress-Archive -Path bin\systemy-operacyjne.exe -DestinationPath artifacts\systemy-operacyjne-windows.zip
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: systemy-operacyjne-windows
+        path: artifacts/systemy-operacyjne-windows.zip
