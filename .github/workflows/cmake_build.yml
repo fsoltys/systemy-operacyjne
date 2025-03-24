@@ -27,9 +27,6 @@ jobs:
     - name: Install binary to ./bin
       run: cmake --install build --config Release --prefix ./bin
 
-    - name: Check output
-      run: dir bin
-
     - name: Create ZIP archive
       run: |
         mkdir artifacts
