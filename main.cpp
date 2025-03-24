@@ -4,7 +4,6 @@
 #include <mutex>
 #include <condition_variable>
 #include "philosopher.h"
-#include <iostream>
 
 int main(int argc, char* argv[]) {
 

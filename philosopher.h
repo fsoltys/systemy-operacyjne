@@ -2,7 +2,6 @@
 #include <vector>
 #include <mutex>
 #include <iostream>
-#include <thread>
 
 enum class State { THINKING, HUNGRY, EATING };  //enum states for readability
 

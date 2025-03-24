@@ -36,27 +36,27 @@ void philosopher::takeForks() { //philosopher is trying to take forks
     std::unique_lock<std::mutex> lock(stateMutex);  //locking
     states[id] = State::HUNGRY;
     logState(State::HUNGRY);
-    test(id);
+    test(id);  //checking if philosopher can eat
     while (states[id] != State::EATING) {
         conditionVars[id].wait(lock);
     }
 }
 
-void philosopher::putForks() {
+void philosopher::putForks() {  //philosopher is putting forks back
     std::unique_lock<std::mutex> lock(stateMutex);
     states[id] = State::THINKING;
     logState(State::THINKING);
-    test((id + 1) % states.size());
+    test((id + 1) % states.size());  //checking if neighbours can eat
     test((id - 1 + states.size()) % states.size());
 }
 
-void philosopher::test(int philosopherId) {
-    if (states[philosopherId] == State::HUNGRY &&
+void philosopher::test(int philosopherId) {     //checking if philosopher can eat
+    if (states[philosopherId] == State::HUNGRY &&       //if philosopher is hungry and neighbours are not eating
         states[(philosopherId + 1) % states.size()] != State::EATING &&
         states[(philosopherId - 1 + states.size()) % states.size()] != State::EATING) {
         states[philosopherId] = State::EATING;
         logState(State::EATING);
-        conditionVars[philosopherId].notify_one();
+        conditionVars[philosopherId].notify_one();  //notifying the philosopher thread that he can eat
     }
 }
 
